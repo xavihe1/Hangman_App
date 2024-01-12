@@ -1,5 +1,7 @@
 package com.example.hangmanapp
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,20 +23,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 
 @Composable
 fun GameScreen(navController: NavController, difficult: String) {
 
-    var botones = listOf(
-        listOf("A", "B", "C", "D", "E", "F"),
-        listOf("G", "H", "I", "J", "K", "L"),
-        listOf("M", "N", "Ñ", "O", "P", "Q"),
-        listOf("R", "S", "T", "U", "V", "W"),
-        listOf("X", "Y", "Z")
-    )
+    var botones by remember { mutableStateOf(arrayOf('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'))}
     var intentos by remember { mutableStateOf(0) }
     var numImagen by remember { mutableStateOf(0) }
     val dificultad by remember{ mutableStateOf(difficult) }
@@ -53,84 +51,67 @@ fun GameScreen(navController: NavController, difficult: String) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center
-    ) {
-        botones.forEach { fila ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                fila.forEach { boton ->
-                    Button(
-                        onClick = { },
-                        modifier = Modifier.padding(2.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Blue
-                        )
-                    ) {
-                        Text(boton)
-                    }
-                }
-            }
-            var inicioJuego = 0
-            var finalJuego = 5
-            val palabraEscondidaNueva = palabraEscondida.toCharArray()
-            var palabraEscogidaNueva = dificultad.uppercase().toCharArray()
+            .padding(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Box(
+            modifier = Modifier
+        ){
+            Text(
+                text = palabraEscondida,
+                fontSize = 40.sp,
+                letterSpacing = 5.sp)
+        }
+        var palabraNuevaEscondida = palabraEscondida.toCharArray()
+        var palabraEscogidaNueva = dificultad.uppercase().toCharArray()
+        var filas = 6
+        var columnas = 6
 
-            repeat(6) {
-                Row {
-                    for (i in inicioJuego..finalJuego) {
+        for (fila in 0 until filas) {
+            Row {
+                for (columna in 0 until columnas) {
+                    val i = fila * columnas + columna
+                    if (i <= botones.lastIndex) {
                         var correcto = false
-                        val letter = botones[i]
+                        var lletra = botones[i]
                         var colorDeLasTeclas by remember { mutableStateOf(Color.Blue) }
-
                         Box(
                             modifier = Modifier
-                                .padding(2.dp)
-                                .width(40.dp)
-                                .height(40.dp)
-                                .clickable {
+                                .padding(3.dp)
+                                .background(colorDeLasTeclas)
+                                .width(50.dp)
+                                .height(50.dp).clickable {
                                     for (letra in dificultad.indices) {
-                                        if (letter == dificultad[letra]) {
+                                        if (lletra == dificultad[letra]) {
                                             correcto = true
-                                            palabraEscondidaNueva[letra] = letter
+                                            palabraEscogidaNueva[letra] == lletra
                                         }
                                     }
-                                    palabraEscondida = String(palabraEscondidaNueva)
+                                    palabraEscondida = String(palabraNuevaEscondida)
                                     if (!correcto) {
                                         colorDeLasTeclas = Color.Red
+                                        intentos++
                                         numImagen++
                                     } else {
                                         colorDeLasTeclas = Color.Green
                                     }
-                                }) {
-                            Text(
-                                text = "$letter",
-                                modifier = Modifier
-                                    .align(Alignment.Center))
-                        }
-                    }
-                    inicioJuego = finalJuego + 1
-                    if (finalJuego +5 < botones.lastIndex) {
-                        finalJuego += 6
-                    } else {
-                        finalJuego = botones.lastIndex
+                                }
+                        ) {
+                            Text(text = "$lletra", modifier = Modifier.align(Alignment.Center))
+                                }
                     }
                 }
             }
         }
-        if (palabraEscondida == dificultad) {
-            victoria = true
-            navController.navigate(Routes.Pantalla4.crearRuta(true, intentos, difficult))
-        } else if (imagenHangman == R.drawable.fallo6) {
-            navController.navigate(Routes.Pantalla4.crearRuta(false, intentos, difficult))
-        }
+    }
+    if (palabraEscondida == dificultad) {
+        victoria = true
+        navController.navigate(Routes.Pantalla4.crearRuta(true, intentos, difficult))
+    } else if (imagenHangman == R.drawable.fallo6) {
+        navController.navigate(Routes.Pantalla4.crearRuta(false, intentos, difficult))
     }
 }
+
 
 @Composable
 fun Game(navControler: NavController, difficult: String) {
