@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,11 +28,10 @@ import androidx.navigation.NavController
 fun GameScreen(navController: NavController, difficult: String) {
 
     val botones by remember { mutableStateOf(arrayOf('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'))}
-    var intentos by remember { mutableStateOf(0) }
-    var numImagen by remember { mutableStateOf(0) }
-    val dificultad by remember{ mutableStateOf(difficult) }
+    var intentos by remember { mutableIntStateOf(0) }
+    var numImagen by remember { mutableIntStateOf(0) }
+    val dificultad by remember{ mutableStateOf( palabras(difficult)) }
     var palabraEscondida by remember { mutableStateOf("_".repeat(dificultad.length)) }
-    var victoria = true
 
     val imagenHangman = when (numImagen) {
         0 -> R.drawable.fallo0
@@ -99,7 +99,6 @@ fun GameScreen(navController: NavController, difficult: String) {
         }
     }
     if (palabraEscondida == dificultad) {
-        victoria = true
         navController.navigate(Routes.Pantalla4.crearRuta(true, intentos, difficult))
     } else if (imagenHangman == R.drawable.fallo6) {
         navController.navigate(Routes.Pantalla4.crearRuta(false, intentos, difficult))
