@@ -1,6 +1,7 @@
 package com.example.hangmanapp
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -74,7 +76,9 @@ fun GameScreen(navController: NavController, difficult: String) {
                                 .padding(3.dp)
                                 .background(colorDeLasTeclas)
                                 .width(50.dp)
-                                .height(50.dp).clickable {
+                                .height(50.dp)
+                                .border(width = 5.dp, color = Color.Gray, shape = RoundedCornerShape(0.dp))
+                                .clickable {
                                     for (letra in dificultad.indices) {
                                         if (lletra == dificultad[letra]) {
                                             correcto = true
@@ -110,8 +114,9 @@ fun GameScreen(navController: NavController, difficult: String) {
 fun Game(navControler: NavController, difficult: String) {
     Column(
         modifier = Modifier
-            .padding(50.dp)
-            .fillMaxSize()
+            .padding(top = 100.dp)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         GameScreen(navController = navControler, difficult)
     }

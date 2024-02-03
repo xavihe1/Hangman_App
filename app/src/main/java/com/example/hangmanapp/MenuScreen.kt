@@ -76,7 +76,7 @@ fun MenuScreen(navController: NavController) {
             }
         }
         Button(
-            onClick = { navController.navigate("GameScreen") },
+            onClick = { navController.navigate(Routes.Pantalla3.route) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.DarkGray
             ),
