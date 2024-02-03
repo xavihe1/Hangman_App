@@ -1,5 +1,6 @@
 package com.example.hangmanapp
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.runtime.Composable
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -21,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -50,13 +53,20 @@ fun GameScreen(navController: NavController, difficult: String) {
             .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
+        Image(
+            painter = painterResource(id = (imagenHangman)),
+            contentDescription = null,
+            modifier = Modifier
+                .size(250.dp)
+        )
         Box(
             modifier = Modifier
         ){
             Text(
                 text = palabraEscondida,
                 fontSize = 40.sp,
-                letterSpacing = 5.sp)
+                letterSpacing = 5.sp
+            )
         }
         val palabraNuevaEscondida = palabraEscondida.toCharArray()
         val palabraEscogidaNueva = dificultad.uppercase().toCharArray()
@@ -77,7 +87,11 @@ fun GameScreen(navController: NavController, difficult: String) {
                                 .background(colorDeLasTeclas)
                                 .width(50.dp)
                                 .height(50.dp)
-                                .border(width = 5.dp, color = Color.Gray, shape = RoundedCornerShape(0.dp))
+                                .border(
+                                    width = 5.dp,
+                                    color = Color.Gray,
+                                    shape = RoundedCornerShape(0.dp)
+                                )
                                 .clickable {
                                     for (letra in dificultad.indices) {
                                         if (lletra == dificultad[letra]) {
