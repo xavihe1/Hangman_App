@@ -117,7 +117,7 @@ fun HelpDialog(mostraDialog: Boolean, onDismiss: () -> Unit) {
                     .padding(24.dp)
                     .fillMaxWidth()) {
                 Text(
-                    text = "Les regles del joc son molt senzilles, consta de un joc d'un únic jugador." +
+                    text = "Les regles del joc són molt sencilles, consta de un joc d'un únic jugador." +
                             " El jugador abans d' entrar a la partida haurà de sel·lecionar una dificultat (fàcil o difícil)." +
                             " Al començar la partida, amb les lletres del abecedari que apareixen a la pantalla, el jugador haurà d' endevinar la paraula oculta." +
                             " Constarà d' uns intents limitats en els que, per cada error del jugador, s' anirà dibuixant una persona penjada." +

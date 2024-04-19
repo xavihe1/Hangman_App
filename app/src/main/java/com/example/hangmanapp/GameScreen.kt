@@ -106,11 +106,17 @@ fun GameScreen(navController: NavController, difficult: String) {
                                         numImagen++
                                     } else {
                                         colorDeLasTeclas = Color.Green
+                                        for (letra in dificultad.indices) {
+                                            if (lletra == dificultad[letra]) {
+                                                palabraNuevaEscondida[letra] = lletra
+                                            }
+                                        }
+                                        palabraEscondida = String(palabraNuevaEscondida)
                                     }
                                 }
                         ) {
                             Text(text = "$lletra", modifier = Modifier.align(Alignment.Center))
-                                }
+                        }
                     }
                 }
             }
