@@ -32,7 +32,7 @@ fun ResultScreen(navController: NavController, victoria: Boolean, intentos: Int,
     ) {
         if (victoria) {
             Text(
-                text = "Lo has conseguido después de $intentos intentos!!",
+                text = "Lo has conseguido después de $intentos fallos!!",
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier

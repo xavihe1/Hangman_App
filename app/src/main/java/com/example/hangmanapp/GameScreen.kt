@@ -143,7 +143,7 @@ fun Game(navControler: NavController, difficult: String) {
 }
 fun palabras(difficult: String): String {
     val palabrasEasy = listOf("PEZ", "PERRO", "ELEFANTE", "LIBRO", "RIO", "MANDARINA")
-    val palabrasHard = listOf("METACRILATO", "ACETONA", "VENTRILOQUIA", "NITROGLICERINA", "RESTRICCION", "ESPARADRAPO")
+    val palabrasHard = listOf("METACRILATO", "ACETONA", "VENTRILOQUIA", "NITROGLICERINA", "RESTRICCION", "ESPARADRAPO", "AMBIDIESTRO", "QUIROMANCIA", "FILANTROPIA", "HIDROFOBIA", "MISTICISMO")
     val palabrasJuego = when (difficult) {
         "Easy"-> palabrasEasy
         else -> palabrasHard
