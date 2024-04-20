@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.compose.ui.res.colorResource
 
 
 @Composable
@@ -37,6 +38,7 @@ fun GameScreen(navController: NavController, difficult: String) {
     var numImagen by remember { mutableIntStateOf(0) }
     val dificultad by remember{ mutableStateOf( palabras(difficult)) }
     var palabraEscondida by remember { mutableStateOf("_".repeat(dificultad.length)) }
+    var azulCielo = colorResource(id = R.color.azul_cielo)
 
     val imagenHangman = when (numImagen) {
         0 -> R.drawable.fallo0
@@ -80,7 +82,7 @@ fun GameScreen(navController: NavController, difficult: String) {
                     if (i <= botones.lastIndex) {
                         var correcto = false
                         val lletra = botones[i]
-                        var colorDeLasTeclas by remember { mutableStateOf(Color.Blue) }
+                        var colorDeLasTeclas by remember { mutableStateOf(azulCielo) }
                         Box(
                             modifier = Modifier
                                 .padding(3.dp)
@@ -88,9 +90,9 @@ fun GameScreen(navController: NavController, difficult: String) {
                                 .width(50.dp)
                                 .height(50.dp)
                                 .border(
-                                    width = 5.dp,
-                                    color = Color.Gray,
-                                    shape = RoundedCornerShape(0.dp)
+                                    width = 2.dp,
+                                    color = azulCielo,
+                                    shape = RoundedCornerShape(5.dp)
                                 )
                                 .clickable {
                                     for (letra in dificultad.indices) {

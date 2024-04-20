@@ -28,6 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import androidx.compose.ui.res.colorResource
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,6 +37,8 @@ fun MenuScreen(navController: NavController) {
     var selectedText by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     val difficulty = listOf("Easy", "Hard")
+    val rojoCarmesi = colorResource(id = R.color.rojo_carmesi)
+    val grisClaro = colorResource(id = R.color.gris_claro)
     Column(
         modifier = Modifier,
         horizontalAlignment  = Alignment.CenterHorizontally,
@@ -80,7 +84,7 @@ fun MenuScreen(navController: NavController) {
         Button(
             onClick = { navController.navigate(Routes.Pantalla3.route) },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.DarkGray
+                containerColor = rojoCarmesi
             ),
         ) {
             Text(
@@ -96,7 +100,7 @@ fun MenuScreen(navController: NavController) {
             Button(
                 onClick = { mostraDialog = true },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Gray
+                    containerColor = grisClaro
                 )
             ) {
                 Text(
