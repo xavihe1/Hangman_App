@@ -34,7 +34,6 @@ import androidx.navigation.NavController
 fun MenuScreen(navController: NavController) {
     var selectedText by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
-    var difficultSelected by remember { mutableStateOf("") }
     val difficulty = listOf("Easy", "Hard")
     Column(
         modifier = Modifier,
@@ -53,6 +52,7 @@ fun MenuScreen(navController: NavController) {
                 .padding(20.dp)
         ){
             OutlinedTextField(
+                label = { Text(text = "Dificultat") },
                 value = selectedText,
                 onValueChange = { selectedText = it },
                 enabled = false,
@@ -72,8 +72,8 @@ fun MenuScreen(navController: NavController) {
                         onClick = {
                             expanded = false
                             selectedText = dificultat
-                            difficultSelected = dificultat
-                        })
+                        }
+                    )
                 }
             }
         }

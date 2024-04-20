@@ -64,7 +64,7 @@ fun GameScreen(navController: NavController, difficult: String) {
         ){
             Text(
                 text = palabraEscondida,
-                fontSize = 40.sp,
+                fontSize = 35.sp,
                 letterSpacing = 5.sp
             )
         }
@@ -142,7 +142,7 @@ fun Game(navControler: NavController, difficult: String) {
     }
 }
 fun palabras(difficult: String): String {
-    val palabrasEasy = listOf("PEZ", "PERRO", "ELEFANTE", "LIBRO", "RIO", "MANDARINA")
+    val palabrasEasy = listOf("PEZ", "PERRO", "ELEFANTE", "LIBRO", "RIO", "MANDARINA", "RESFRIADO", "PELOTA", "JUGUETE")
     val palabrasHard = listOf("METACRILATO", "ACETONA", "VENTRILOQUIA", "NITROGLICERINA", "RESTRICCION", "ESPARADRAPO", "AMBIDIESTRO", "QUIROMANCIA", "FILANTROPIA", "HIDROFOBIA", "MISTICISMO")
     val palabrasJuego = when (difficult) {
         "Easy"-> palabrasEasy
