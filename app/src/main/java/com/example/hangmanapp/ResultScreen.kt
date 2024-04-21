@@ -19,10 +19,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.compose.ui.res.colorResource
+
 
 @Composable
 fun ResultScreen(navController: NavController, victoria: Boolean, intentos: Int, difficult: String) {
 
+    val rojoCarmesi = colorResource(id = R.color.rojo_carmesi)
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -64,7 +67,7 @@ fun ResultScreen(navController: NavController, victoria: Boolean, intentos: Int,
         Button(
             onClick = { navController.navigate(Routes.Pantalla3.crearRuta(difficult)) },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.DarkGray
+                containerColor = rojoCarmesi
             ),
         ) {
             Text(

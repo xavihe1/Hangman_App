@@ -39,6 +39,7 @@ fun MenuScreen(navController: NavController) {
     val difficulty = listOf("Easy", "Hard")
     val rojoCarmesi = colorResource(id = R.color.rojo_carmesi)
     val grisClaro = colorResource(id = R.color.gris_claro)
+    val verdeHierba = colorResource(id = R.color.verde_hierba)
     Column(
         modifier = Modifier,
         horizontalAlignment  = Alignment.CenterHorizontally,
@@ -100,7 +101,7 @@ fun MenuScreen(navController: NavController) {
             Button(
                 onClick = { mostraDialog = true },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = grisClaro
+                    containerColor = verdeHierba
                 )
             ) {
                 Text(

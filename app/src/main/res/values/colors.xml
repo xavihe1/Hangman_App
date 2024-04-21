@@ -24,5 +24,14 @@
     <color name="gris_vegetal">#36454F</color>
     <color name="gris_plateado">#C0C0C0</color>
     <color name="gris_oscuro">#A9A9A9</color>
+    <color name="verde_jade">#00A86B</color>
+    <color name="verde_manzana">#8DB600</color>
+    <color name="verde_pino">#01796F</color>
+    <color name="verde_agua">#7FFFD4</color>
+    <color name="verde_lima">#00FF00</color>
+    <color name="verde_mar">#2E8B57</color>
+    <color name="verde_hierba">#4CAF50</color>
+    <color name="verde_primavera">#00FF7F</color>
+    <color name="verde_pastel">#77DD77</color>
 
 </resources>
