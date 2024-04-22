@@ -38,7 +38,7 @@ fun GameScreen(navController: NavController, difficult: String) {
     var numImagen by remember { mutableIntStateOf(0) }
     val dificultad by remember{ mutableStateOf( palabras(difficult)) }
     var palabraEscondida by remember { mutableStateOf("_".repeat(dificultad.length)) }
-    var azulCielo = colorResource(id = R.color.azul_cielo)
+    val azulCielo = colorResource(id = R.color.azul_cielo)
 
     val imagenHangman = when (numImagen) {
         0 -> R.drawable.fallo0

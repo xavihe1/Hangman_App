@@ -1,20 +1,32 @@
 package com.example.hangmanapp
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
@@ -29,6 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,17 +55,19 @@ fun MenuScreen(navController: NavController) {
     val rojoCarmesi = colorResource(id = R.color.rojo_carmesi)
     val grisClaro = colorResource(id = R.color.gris_claro)
     val verdeHierba = colorResource(id = R.color.verde_hierba)
+
     Column(
-        modifier = Modifier,
-        horizontalAlignment  = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier
+            .padding(40.dp)
+            .fillMaxWidth(),
+        horizontalAlignment  = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(id = R.drawable.hangman_image),
             contentDescription = null,
             modifier = Modifier
                 .padding(70.dp)
-                .size(250.dp)
+                .size(270.dp)
         )
         Column(
             modifier = Modifier
@@ -82,30 +99,68 @@ fun MenuScreen(navController: NavController) {
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp)) // Agrega espacio entre la imagen y los botones
         Button(
             onClick = { navController.navigate(Routes.Pantalla3.route) },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = rojoCarmesi
-            ),
-        ) {
-            Text(
-                text = "PLAY")
-        }
-        Box(
             modifier = Modifier
-                .padding(20.dp),
-            contentAlignment = Alignment.Center) {
-
+                .height(56.dp) // Reducimos la altura del botón "PLAY"
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = rojoCarmesi,
+                contentColor = Color.White
+            )
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "PLAY",
+                    style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.Bold), // Reducimos el tamaño del texto
+                    modifier = Modifier.padding(end = 4.dp)
+                )
+                Icon(
+                    Icons.Default.PlayArrow,
+                    contentDescription = "Play",
+                    modifier = Modifier.size(32.dp) // Reducimos el tamaño del icono
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp)) // Agrega espacio entre los botones
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
             var mostraDialog by remember { mutableStateOf(false) }
 
             Button(
                 onClick = { mostraDialog = true },
+                modifier = Modifier
+                    .height(54.dp) // Aumentamos la altura del botón "HELP"
+                    .padding(horizontal = 40.dp), // Ajustamos el espacio horizontal del botón "HELP"
+                shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = verdeHierba
+                    containerColor = verdeHierba,
+                    contentColor = Color.White
                 )
             ) {
-                Text(
-                    text = "HELP")
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "HELP",
+                        style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold), // Aumentamos el tamaño del texto
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                    Icon(
+                        Icons.Default.Info,
+                        contentDescription = "Help",
+                        modifier = Modifier.size(28.dp) // Reducimos ligeramente el tamaño del icono
+                    )
+                }
             }
             HelpDialog(mostraDialog, { mostraDialog = false })
         }
