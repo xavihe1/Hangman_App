@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
@@ -29,6 +30,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +44,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
@@ -74,13 +77,31 @@ fun MenuScreen(navController: NavController) {
                 .padding(20.dp)
         ){
             OutlinedTextField(
-                label = { Text(text = "Dificultat") },
                 value = selectedText,
                 onValueChange = { selectedText = it },
+                label = {
+                    Text(text = "Dificultat", color = Color.Gray) // Cambiamos el color del texto del label
+                },
+                textStyle = TextStyle(color = Color.Black), // Cambiamos el color del texto
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { expanded = true },
                 enabled = false,
                 readOnly = true,
-                modifier = Modifier
-                    .clickable { expanded = true }
+                shape = RoundedCornerShape(8.dp), // Agregamos bordes redondeados
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    textColor = Color.Black, // Cambiamos el color del texto
+                    cursorColor = Color.Black, // Cambiamos el color del cursor
+                    focusedBorderColor = rojoCarmesi, // Cambiamos el color del borde cuando está enfocado
+                    unfocusedBorderColor = Color.Gray // Cambiamos el color del borde cuando no está enfocado
+                ),
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Drop Down Arrow",
+                        tint = Color.Gray // Cambiamos el color del icono
+                    )
+                }
             )
             DropdownMenu(
                 expanded = expanded,
