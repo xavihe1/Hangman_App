@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,7 +24,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,7 +44,6 @@ fun GameScreen(navController: NavController, difficult: String) {
     var numImagen by remember { mutableIntStateOf(0) }
     val palabraEscogida = remember { mutableStateOf(palabras(difficult)) }
     var palabraEscondida by remember { mutableStateOf("_".repeat(palabraEscogida.value.length)) }
-    val azulCielo = colorResource(id = R.color.azul_cielo)
 
     val imagenHangman = when (numImagen) {
         0 -> R.drawable.fallo0
@@ -62,7 +68,8 @@ fun GameScreen(navController: NavController, difficult: String) {
             Text(
                 text = palabraEscondida,
                 fontSize = 35.sp,
-                letterSpacing = 5.sp
+                letterSpacing = 5.sp,
+                color = Color.Black
             )
         }
 
@@ -71,34 +78,47 @@ fun GameScreen(navController: NavController, difficult: String) {
         val columnas = 6
 
         for (fila in 0 until filas) {
-            Row {
+            Row(
+                modifier = Modifier.padding(vertical = 4.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
                 for (columna in 0 until columnas) {
                     val i = fila * columnas + columna
                     if (i < botones.size) {
-                        var colorDeLasTeclas by remember { mutableStateOf(azulCielo) }
                         val letra = botones[i]
+                        var colorDeLasTeclas by remember { mutableStateOf(Color(0xFF1E88E5)) } // Azul oscuro
+                        var letraUsada by remember { mutableStateOf(false) } // Estado para verificar si la letra fue usada
+
                         Box(
                             modifier = Modifier
-                                .padding(3.dp)
-                                .background(colorDeLasTeclas)
-                                .width(50.dp)
-                                .height(50.dp)
-                                .border(2.dp, azulCielo, RoundedCornerShape(5.dp))
+                                .padding(4.dp) // Reduce el padding
+                                .background(colorDeLasTeclas, shape = RoundedCornerShape(10.dp))
+                                .size(52.dp) // Tamaño de las teclas un poco más pequeño
+                                .border(2.dp, Color.Black, RoundedCornerShape(10.dp)) // Borde negro
                                 .clickable {
-                                    // Comprueba si la letra está en la palabra
-                                    if (letra in palabraEscogida.value) {
-                                        colorDeLasTeclas = Color.Green
-                                        palabraEscondida = palabraEscogida.value.indices.joinToString("") {
-                                            if (palabraEscogida.value[it] == letra) letra.toString() else palabraEscondida[it].toString()
+                                    if (!letraUsada) { // Comprobar si la letra no fue usada antes
+                                        letraUsada = true // Marcar letra como usada
+
+                                        // Comprueba si la letra está en la palabra
+                                        if (letra in palabraEscogida.value) {
+                                            colorDeLasTeclas = Color.Green // Cambia a verde si está en la palabra
+                                            palabraEscondida = palabraEscogida.value.indices.joinToString("") {
+                                                if (palabraEscogida.value[it] == letra) letra.toString() else palabraEscondida[it].toString()
+                                            }
+                                        } else {
+                                            colorDeLasTeclas = Color.Red // Cambia a rojo si no está
+                                            intentos++
+                                            numImagen++
                                         }
-                                    } else {
-                                        colorDeLasTeclas = Color.Red
-                                        intentos++
-                                        numImagen++
                                     }
                                 }
                         ) {
-                            Text(text = "$letra", modifier = Modifier.align(Alignment.Center))
+                            Text(
+                                text = letra.toString(),
+                                color = Color.White, // Color del texto
+                                fontSize = 18.sp, // Cambiar tamaño de texto para que se ajuste
+                                modifier = Modifier.align(Alignment.Center)
+                            )
                         }
                     }
                 }
@@ -109,10 +129,12 @@ fun GameScreen(navController: NavController, difficult: String) {
     // Navegación en caso de victoria o derrota
     if (palabraEscondida == palabraEscogida.value) {
         navController.navigate(Routes.Pantalla4.crearRuta(true, intentos, difficult))
-    } else if (imagenHangman == R.drawable.fallo6) {
+    } else if (numImagen >= 6) { // Verifica si se llegó a 6 intentos
         navController.navigate(Routes.Pantalla4.crearRuta(false, intentos, difficult))
     }
 }
+
+
 
 @Composable
 fun Game(navController: NavController, difficult: String) {

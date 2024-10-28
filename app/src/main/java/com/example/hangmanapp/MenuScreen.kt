@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MenuScreen(navController: NavController) {
-    var selectedText by remember { mutableStateOf("") }
+    var selectedText by remember { mutableStateOf("Easy") } // Cambiado para establecer "Easy" como valor por defecto
     var expanded by remember { mutableStateOf(false) }
     val difficulty = listOf("Easy", "Hard")
     val rojoCarmesi = colorResource(id = R.color.rojo_carmesi)
@@ -123,7 +123,10 @@ fun MenuScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp)) // Agrega espacio entre la imagen y los botones
         Button(
-            onClick = { navController.navigate(Routes.Pantalla3.crearRuta(selectedText)) },
+            onClick = {
+                // Aquí se utiliza el valor seleccionado, que ya tendrá "Easy" como valor predeterminado
+                navController.navigate(Routes.Pantalla3.crearRuta(selectedText))
+            },
             modifier = Modifier
                 .height(56.dp) // Reducimos la altura del botón "PLAY"
                 .fillMaxWidth(),
@@ -187,6 +190,7 @@ fun MenuScreen(navController: NavController) {
         }
     }
 }
+
 
 @Composable
 fun HelpDialog(mostraDialog: Boolean, onDismiss: () -> Unit) {
