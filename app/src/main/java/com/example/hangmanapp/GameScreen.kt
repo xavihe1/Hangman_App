@@ -32,12 +32,11 @@ import androidx.compose.ui.res.colorResource
 
 @Composable
 fun GameScreen(navController: NavController, difficult: String) {
-
-    val botones by remember { mutableStateOf(arrayOf('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'))}
+    val botones = ('A'..'Z').toList()
     var intentos by remember { mutableIntStateOf(0) }
     var numImagen by remember { mutableIntStateOf(0) }
-    val dificultad by remember{ mutableStateOf( palabras(difficult)) }
-    var palabraEscondida by remember { mutableStateOf("_".repeat(dificultad.length)) }
+    val palabraEscogida = remember { mutableStateOf(palabras(difficult)) }
+    var palabraEscondida by remember { mutableStateOf("_".repeat(palabraEscogida.value.length)) }
     val azulCielo = colorResource(id = R.color.azul_cielo)
 
     val imagenHangman = when (numImagen) {
@@ -51,104 +50,88 @@ fun GameScreen(navController: NavController, difficult: String) {
     }
 
     Column(
-        modifier = Modifier
-            .padding(10.dp),
+        modifier = Modifier.padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Image(
-            painter = painterResource(id = (imagenHangman)),
+            painter = painterResource(id = imagenHangman),
             contentDescription = null,
-            modifier = Modifier
-                .size(250.dp)
+            modifier = Modifier.size(250.dp)
         )
-        Box(
-            modifier = Modifier
-        ){
+        Box {
             Text(
                 text = palabraEscondida,
                 fontSize = 35.sp,
                 letterSpacing = 5.sp
             )
         }
-        val palabraNuevaEscondida = palabraEscondida.toCharArray()
-        val palabraEscogidaNueva = dificultad.uppercase().toCharArray()
-        val filas = 6
+
+        // Mostrar las teclas en una cuadrícula de filas y columnas
+        val filas = 5
         val columnas = 6
 
         for (fila in 0 until filas) {
             Row {
                 for (columna in 0 until columnas) {
                     val i = fila * columnas + columna
-                    if (i <= botones.lastIndex) {
-                        var correcto = false
-                        val lletra = botones[i]
+                    if (i < botones.size) {
                         var colorDeLasTeclas by remember { mutableStateOf(azulCielo) }
+                        val letra = botones[i]
                         Box(
                             modifier = Modifier
                                 .padding(3.dp)
                                 .background(colorDeLasTeclas)
                                 .width(50.dp)
                                 .height(50.dp)
-                                .border(
-                                    width = 2.dp,
-                                    color = azulCielo,
-                                    shape = RoundedCornerShape(5.dp)
-                                )
+                                .border(2.dp, azulCielo, RoundedCornerShape(5.dp))
                                 .clickable {
-                                    for (letra in dificultad.indices) {
-                                        if (lletra == dificultad[letra]) {
-                                            correcto = true
-                                            palabraEscogidaNueva[letra] = lletra
+                                    // Comprueba si la letra está en la palabra
+                                    if (letra in palabraEscogida.value) {
+                                        colorDeLasTeclas = Color.Green
+                                        palabraEscondida = palabraEscogida.value.indices.joinToString("") {
+                                            if (palabraEscogida.value[it] == letra) letra.toString() else palabraEscondida[it].toString()
                                         }
-                                    }
-                                    palabraEscondida = String(palabraNuevaEscondida)
-                                    if (!correcto) {
+                                    } else {
                                         colorDeLasTeclas = Color.Red
                                         intentos++
                                         numImagen++
-                                    } else {
-                                        colorDeLasTeclas = Color.Green
-                                        for (letra in dificultad.indices) {
-                                            if (lletra == dificultad[letra]) {
-                                                palabraNuevaEscondida[letra] = lletra
-                                            }
-                                        }
-                                        palabraEscondida = String(palabraNuevaEscondida)
                                     }
                                 }
                         ) {
-                            Text(text = "$lletra", modifier = Modifier.align(Alignment.Center))
+                            Text(text = "$letra", modifier = Modifier.align(Alignment.Center))
                         }
                     }
                 }
             }
         }
     }
-    if (palabraEscondida == dificultad) {
+
+    // Navegación en caso de victoria o derrota
+    if (palabraEscondida == palabraEscogida.value) {
         navController.navigate(Routes.Pantalla4.crearRuta(true, intentos, difficult))
     } else if (imagenHangman == R.drawable.fallo6) {
         navController.navigate(Routes.Pantalla4.crearRuta(false, intentos, difficult))
     }
 }
 
-
 @Composable
-fun Game(navControler: NavController, difficult: String) {
+fun Game(navController: NavController, difficult: String) {
     Column(
         modifier = Modifier
             .padding(top = 100.dp)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        GameScreen(navController = navControler, difficult)
+        GameScreen(navController = navController, difficult = difficult)
     }
 }
+
 fun palabras(difficult: String): String {
     val palabrasEasy = listOf("PEZ", "PERRO", "ELEFANTE", "LIBRO", "RIO", "MANDARINA", "RESFRIADO", "PELOTA", "JUGUETE")
     val palabrasHard = listOf("METACRILATO", "ACETONA", "VENTRILOQUIA", "NITROGLICERINA", "RESTRICCION", "ESPARADRAPO", "AMBIDIESTRO", "QUIROMANCIA", "FILANTROPIA", "HIDROFOBIA", "MISTICISMO", "JINETE", "COEXISTIR", "OXIGENO", "INEXORABLE", "AMBIGUEDAD", "XILOFONO", "ENIGMA", "JACTANCIA", "COAGULO", "QUIMERA", "XENOFOBIA", "EXEQUIAS", "CONVEXO", "GIROSCOPIO", "QUILATE", "JEROGLIFICO", "GUIRNALDA", "YUNQUE", "YUGULAR", "CRATER", "ZAFIRO", "ZAMBULLIDA", "YUXTAPUESTO", "UNIFORME", "QUEBRADIZO", "MULTINACIONAL", "CANGREJO", "LONGANIZA", "TRIVIAL", "ALMOHADILLA", "CRISTALINO", "TELEVISOR", "DIAGNOSTICO", "HEMIPLEJIA", "PROCEDIMIENTO", "DIAMANTE", "CHAQUETA", "HORIZONTE", "PINZAS", "ALMACENAR", "PLAN")
-    val palabrasJuego = when (difficult) {
-        "Easy"-> palabrasEasy
-        else -> palabrasHard
+
+    return when (difficult.lowercase()) {
+        "easy" -> palabrasEasy.random()
+        else -> palabrasHard.random()
     }
-    return palabrasJuego[(palabrasJuego.indices).random()]
 }

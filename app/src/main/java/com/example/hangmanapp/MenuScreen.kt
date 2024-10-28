@@ -123,7 +123,7 @@ fun MenuScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp)) // Agrega espacio entre la imagen y los botones
         Button(
-            onClick = { navController.navigate(Routes.Pantalla3.route) },
+            onClick = { navController.navigate(Routes.Pantalla3.crearRuta(selectedText)) },
             modifier = Modifier
                 .height(56.dp) // Reducimos la altura del botón "PLAY"
                 .fillMaxWidth(),

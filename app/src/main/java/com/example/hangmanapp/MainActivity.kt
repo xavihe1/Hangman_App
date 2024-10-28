@@ -36,10 +36,9 @@ class MainActivity : ComponentActivity() {
                         composable(Routes.Pantalla3.route,
                             arguments = listOf(navArgument("difficult") {type = NavType.StringType})
                         ) { backStackEntry ->
-                            Game(
-                                navigationController,
-                                backStackEntry.arguments?.getString("difficult") ?: "Easy"
-                            ) }
+                            val difficult = backStackEntry.arguments?.getString("difficult") ?: "Easy"
+                            GameScreen(navController = navigationController, difficult = difficult)
+                        }
 
                         composable(Routes.Pantalla4.route,
                             arguments = listOf(navArgument("victoria") {type = NavType.BoolType},
