@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -46,6 +47,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 
@@ -195,20 +197,50 @@ fun MenuScreen(navController: NavController) {
 @Composable
 fun HelpDialog(mostraDialog: Boolean, onDismiss: () -> Unit) {
     if (mostraDialog) {
-        Dialog(
-            onDismissRequest = { onDismiss() }
-        ) {
-            Column(
+        Dialog(onDismissRequest = { onDismiss() }) {
+            Box(
                 Modifier
-                    .background(Color.LightGray)
+                    .background(Color(0xB3FFFFFF), shape = RoundedCornerShape(16.dp)) // Fondo blanco más transparente
                     .padding(24.dp)
-                    .fillMaxWidth()) {
-                Text(
-                    text = "Les regles del joc són molt sencilles, consta de un joc d'un únic jugador." +
-                            " El jugador abans d' entrar a la partida haurà de sel·lecionar una dificultat (fàcil o difícil)." +
-                            " Al començar la partida, amb les lletres del abecedari que apareixen a la pantalla, el jugador haurà d' endevinar la paraula oculta." +
-                            " Constarà d' uns intents limitats en els que, per cada error del jugador, s' anirà dibuixant una persona penjada." +
-                            " Un cop el jugador hagi fallat tant com per haver completat el dibuix de la persona penjada, s' acabarà el joc.")
+                    .fillMaxWidth()
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Reglas del Juego",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF333333) // Color oscuro para el título
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = "El juego consiste en un jugador que debe adivinar la palabra oculta antes de quedarse sin intentos. "
+                                + "Seleccione una dificultad (fácil o difícil) y use el alfabeto en pantalla para adivinar. "
+                                + "Cada error se suma al dibujo de la persona colgada, y el juego termina al completar el dibujo.",
+                        fontSize = 16.sp,
+                        color = Color(0xFF555555), // Color gris oscuro para el texto principal
+                        lineHeight = 22.sp,
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(
+                        onClick = { onDismiss() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF007AFF),
+                            contentColor = Color.White
+                        ),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text(
+                            text = "Cerrar",
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
             }
         }
     }
